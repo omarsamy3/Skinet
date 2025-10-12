@@ -39,6 +39,6 @@ public class ProductRepository(StoreContext context) : IProductRepository
 
     public void UpdateProduct(Product product)
     {
-        context.Products.Update(product);
+        context.Entry(product).State = EntityState.Modified;
     }
 }
