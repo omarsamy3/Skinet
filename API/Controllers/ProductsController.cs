@@ -48,7 +48,7 @@ public class ProductsController(IProductRepository repo) : ControllerBase
 
         return BadRequest("Could not update the product");
     }
-    
+
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> DeleteProduct(int id)
     {
@@ -57,10 +57,22 @@ public class ProductsController(IProductRepository repo) : ControllerBase
 
         repo.DeleteProduct(product);
 
-        if(await repo.SaveChangesAsync())
+        if (await repo.SaveChangesAsync())
             return NoContent();
 
         return BadRequest("Could not delete the product");
+    }
+
+    [HttpGet("brands")]
+    public async Task<ActionResult<IReadOnlyList<string>>> GetBrandsAsync()
+    {
+        return Ok(await repo.GetBrandsAsync());
+    }
+
+    [HttpGet("types")]
+    public async Task<ActionResult<IReadOnlyList<string>>> GetTypesAsync()
+    {
+        return Ok(await repo.GetTypesAsync());
     }
 
     private bool ProductExists(int id)
